@@ -17,7 +17,7 @@ RUN apt-get -y update
 RUN LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y slapd ldap-utils
 
 # Default configuration: can be overridden at the docker command line
-ENV LDAP_ROOTPASS toor
+ENV LDAP_ADMIN_PASSWORD pass
 ENV LDAP_ORGANISATION Acme Widgets Inc.
 ENV LDAP_DOMAIN example.com
 
