@@ -1,7 +1,9 @@
-## slapd
+# docker-openldap
 
-A basic configuration of the OpenLDAP server, slapd, with support for data
-volumes.
+Forked from https://github.com/nickstenning/docker-slapd
+
+A basic configuration of the OpenLDAP server `slapd` with support for data
+volumes, as well `ldap-utils`.
 
 This image will initialize a basic configuration of slapd. Most common schemas
 are preloaded (all the schemas that come preloaded with the default Ubuntu
@@ -15,24 +17,23 @@ to `docker run`:
   here, the root of your directory will be `dc=foo,dc=bar,dc=com`)
 - `LDAP_ORGANISATION` sets the human-readable name for your organisation (e.g.
   `Acme Widgets Inc.`)
-- `LDAP_ROOTPASS` sets the LDAP admin user password (i.e. the password for
+- `LDAP_ADMIN_PASSWORD` sets the LDAP admin user password (i.e. the password for
   `cn=admin,dc=example,dc=com` if your domain was `example.com`)
 
 For example, to start a container running slapd for the `mycorp.com` domain,
 with data stored in `/data/ldap` on the host, use the following:
 
     docker run -v /data/ldap:/var/lib/ldap \
-               -e LDAP_DOMAIN=mycorp.com \
-               -e LDAP_ORGANISATION="My Mega Corporation" \
-               -e LDAP_ROOTPASS=s3cr3tpassw0rd \
-               -d nickstenning/slapd
+               -e LDAP_DOMAIN=myorg.com \
+               -e LDAP_ORGANISATION="My Organization" \
+               -e LDAP_ADMIN_PASSWORD=pass \
+               -d openknowledge/openldap
 
 You can find out which port the LDAP server is bound to on the host by running
 `docker ps` (or `docker port <container_id> 389`). You could then load an LDIF
 file (to set up your directory) like so:
 
-    ldapadd -h localhost -p <host_port> -c -x -D cn=admin,dc=mycorp,dc=com -W -f
-data.ldif
+    ldapadd -h localhost -p <host_port> -c -x -D cn=admin,dc=mycorp,dc=com -W -f data.ldif
 
 **NB**: Please be aware that by default docker will make the LDAP port
 accessible from anywhere if the host firewall is unconfigured.
