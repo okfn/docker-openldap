@@ -1,5 +1,5 @@
 FROM phusion/baseimage:0.9.8
-MAINTAINER Nick Stenning <nick@whiteink.com>
+MAINTAINER Open Knowledge <services@okfn.org>
 
 ENV HOME /root
 
@@ -13,8 +13,8 @@ CMD ["/sbin/my_init"]
 RUN echo 'deb http://us.archive.ubuntu.com/ubuntu/ precise universe' >> /etc/apt/sources.list
 RUN apt-get -y update
 
-# Install slapd
-RUN LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y slapd
+# Install slapd and ldap-utils
+RUN LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y slapd ldap-utils
 
 # Default configuration: can be overridden at the docker command line
 ENV LDAP_ROOTPASS toor
